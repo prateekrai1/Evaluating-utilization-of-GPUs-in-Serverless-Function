@@ -178,9 +178,44 @@ $ kubectl port-forward -n openfaas svc/gateway 8080:8080 &
 ```
 
 # Creating and Deploying the Serverless functions
-  
+## Creating a Function
+First pull the template repository
+```
+$ faas-cli template pull
+```
+Create a java function, Similarly you can replace the language and the function name with Dockerfile, Python, Go etc. and any suitable name that you would like for your function. 
+```
+$ faas-cli new --lang python pythonFunction
+```
+This will create a directory with the function name and also functionname.yml
 
-
+## Build and Deploy the FaaS function
+Build the Function. The built in URL is http://127.0.0.1 for OpenFaaS. 
+```
+$ faas-cli build -f functionname.yml -g $GATEWAY_URL
+```
+if you need any help building the function, you can take the help of FaaS-CLI by typing in 
+```
+$ faas-cli build --help
+```
+Edit the functionname.yml -- The defualt version will not gave any namespaces in it. Make sure to include namespaces
+```
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  cupyfunction:
+    lang: dockerfile
+    handler: ./functionname
+    image: <your_dockerhub_username>/functionname:latest
+    <namespaces: openfaas-fn>
+```
+Deploy the function
+This will deploy the function to your Docker hub repository
+```
+$ faas-cli up -f functionname.yml
+```
 
 
 
