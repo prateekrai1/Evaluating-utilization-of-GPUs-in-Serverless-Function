@@ -11,9 +11,13 @@ Nvtop, a monitoring tool for GPU by Nvidia is utilized for evaluating the GPU.
 # Installation-Guide
 ## Prerequisites
 ### You must have a CUDA capable GPU
-`lspci | grep -i nvidia`
+```
+lspci | grep -i nvidia
+```
 ### Verify you have a supported version of Linux
-`uname -m && cat /etc/*release`
+```
+uname -m && cat /etc/*release
+```
 ##### You should see output similar to the following, modified for your particular system
 ```
 x86_64
