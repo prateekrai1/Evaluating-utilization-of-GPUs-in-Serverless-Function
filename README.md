@@ -82,13 +82,34 @@ $ sudo apt-get install -y cuda-drivers
 $ sudo apt-get install -y nvidia-driver-550-open
 $ sudo apt-get install -y cuda-drivers-550
 ```
+## Install Nvidia Container Toolkit to enable GPU support in Docker
+
+
 ## Installing Minikube
 If you plan to evaluate GPU for a single node cluster use minikube, else you can use containerd
 ```
 $ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 $ sudo install minikube-linux-amd64 /usr/local/bin/minikube
-$ minikube start --driver=docker
 ```
+### Using NVIDIA GPUs with Minikube
+Check if `bpf_jit_harden` is set to `0`
+```
+$ sudo sysctl net.core.bpf_jit_harden
+```
+If it's not `0` then run:
+```
+$ echo "net.core.bpf_jit_harden=0" | sudo tee -a /etc/sysctl.conf
+$ sudo sysctl -p
+```
+Configure Docker:
+```
+$ sudo nvidia-ctk runtime configure --runtime=docker && sudo systemctl restart docker
+```
+Start Minikube:
+```
+minikube start --driver docker --container-runtime docker --gpus all
+```
+
 ## Install Kubectl
 ```
 $ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -100,7 +121,8 @@ echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
 ```
 ###### You shoudl see a Output similar to the following:
 `kubectl:OK`
-## Install Nvidia Container Toolkit to enable GPU support in Docker
+
+
 
 
 
