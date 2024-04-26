@@ -3,7 +3,7 @@ This repository implements tools and analysis to measure NVIDIA GPUs utilization
 
 # Methodology
 This methodology is only applicable for Linux environments.
-To utilize the Nvidia GPU, we need to install Nvidia Drivers and CUDA Toolkit (12.4 - Latest). 
+To utilize the Nvidia GPU, we need to install Nvidia Drivers and CUDA Toolkit (12.4). 
 OpenFaaS, a popular severless framework, is utilized for deploying these functions within the choosen runtime environment. 
 Minikube, a local Kubernetes implementation, is used to create a development environment that simulates a Kubernetes cluster. Within minikube, the necessary resources, including GPU support using Nvidia Container Toolkit are configured.
 Nvtop, a monitoring tool for GPU by Nvidia is utilized for evaluating the GPU.
