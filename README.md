@@ -216,6 +216,21 @@ This will deploy the function to your Docker hub repository
 ```
 $ faas-cli up -f functionname.yml
 ```
-
-
+You can enable prometheus for monitoring you cluster by using this command
+```
+$ faas-cli deploy -f functionname.yml --annotation prometheus.io.scrape=true --annotation prometheus.io.port=8081
+```
+Check the Prometheus Status will be changed to "True"
+```
+$ faas-cli describe functionname
+```
+Invoke the function
+```
+$ faas-cli invoke functionname
+```
+To ensure your container is running in the cluster. This will give all the containers running on the cluster. You should be able to see your function with your namespace
+```
+kubectl get pods -A
+kubectl get services -A
+```
 
