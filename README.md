@@ -11,20 +11,20 @@ Nvtop, a monitoring tool for GPU by Nvidia is utilized for evaluating the GPU.
 # Installation-Guide
 ## Prerequisites
 These are the basic prerequisites to get started, for more information [Nvidia CUDA installation Guide for Linux](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)
-### You must have a CUDA capable GPU
+You must have a CUDA capable GPU
 ```
 lspci | grep -i nvidia
 ```
-### Verify you have a supported version of Linux
+Verify you have a supported version of Linux
 ```
 uname -m && cat /etc/*release
 ```
-##### You should see output similar to the following, modified for your particular system
+You should see output similar to the following, modified for your particular system
 ```
 x86_64
 Red Hat Enterprise Linux Workstation release 6.0 (Santiago)
 ```
-### Verify the System Has gcc Installed
+Verify the System Has gcc Installed
 ```
 gcc --version
 ```
@@ -45,7 +45,7 @@ $ echo \
 $ sudo apt-get update
 $ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
-#### Test Docker using 'Hello-World'
+Test Docker using 'Hello-World'
 ```
 sudo docker run hello-world
 ```
@@ -115,11 +115,11 @@ minikube start --driver docker --container-runtime docker --gpus all
 $ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 $ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
 ```
-#### check whether you are able to execute the binary
+check whether you are able to execute the binary
 ```
 echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
 ```
-###### You shoudl see a Output similar to the following:
+You shoudl see a Output similar to the following:
 `kubectl:OK`
 
 
