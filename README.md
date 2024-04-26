@@ -29,7 +29,7 @@ Red Hat Enterprise Linux Workstation release 6.0 (Santiago)
 gcc --version
 ```
 ## Installing Docker
-These steps should help you install Docker. For further information [Docker](https://docs.docker.com/engine/install/ubuntu/)
+These steps should help you install Docker. For further information visit [Docker](https://docs.docker.com/engine/install/ubuntu/)
 ```
 $ sudo apt-get update
 $ sudo apt-get install ca-certificates curl
@@ -82,6 +82,26 @@ $ sudo apt-get install -y cuda-drivers
 $ sudo apt-get install -y nvidia-driver-550-open
 $ sudo apt-get install -y cuda-drivers-550
 ```
+## Installing Minikube
+If you plan to evaluate GPU for a single node cluster use minikube, else you can use containerd
+```
+$ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+$ sudo install minikube-linux-amd64 /usr/local/bin/minikube
+$ minikube start --driver=docker
+```
+## Install Kubectl
+```
+$ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+$ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+```
+#### check whether you are able to execute the binary
+```
+echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+```
+###### You shoudl see a Output similar to the following:
+`kubectl:OK`
+## Install Nvidia Container Toolkit to enable GPU support in Docker
+
 
 
 
