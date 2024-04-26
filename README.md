@@ -113,13 +113,13 @@ $ sudo apt-get install -y nvidia-container-toolkit
 ```
 Configure the container runtime by using the nvidia-ctk command:
 ```
-sudo nvidia-ctk runtime configure --runtime=docker
+$ sudo nvidia-ctk runtime configure --runtime=docker
 ```
 The `nvidia-ctk` command modifies the `/etc/docker/daemon.json` file on the host. The file is updated so that Docker can use the NVIDIA Container Runtime.
 
 Restart the Docker daemon:
 ```
-sudo systemctl restart docker
+$ sudo systemctl restart docker
 ```
 
 
@@ -142,7 +142,7 @@ $ sudo sysctl -p
 ```
 Start Minikube:
 ```
-minikube start --driver docker --container-runtime docker --gpus all
+$ minikube start --driver docker --container-runtime docker --gpus all
 ```
 
 ## Install Kubectl
@@ -230,7 +230,15 @@ $ faas-cli invoke functionname
 ```
 To ensure your container is running in the cluster. This will give all the containers running on the cluster. You should be able to see your function with your namespace
 ```
-kubectl get pods -A
-kubectl get services -A
+$ kubectl get pods -A
+$ kubectl get services -A
 ```
+
+# Monitoring the GPU
+## Install NVTOP
+```
+$ sudo apt install nvtop
+$ nvtop
+```
+If your function utilizes the GPU, then you should be able to see the spike in graph. 
 
