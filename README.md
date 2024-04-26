@@ -31,22 +31,57 @@ gcc --version
 ## Installing Docker
 These steps should help you install Docker. For further information [Docker](https://docs.docker.com/engine/install/ubuntu/)
 ```
-sudo apt-get update
-sudo apt-get install ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
+$ sudo apt-get update
+$ sudo apt-get install ca-certificates curl
+$ sudo install -m 0755 -d /etc/apt/keyrings
+$ sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+$ sudo chmod a+r /etc/apt/keyrings/docker.asc
 
 # Add the repository to Apt sources:
-echo \
+$ echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+$ sudo apt-get update
+$ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 #### Test Docker using 'Hello-World'
 ```
 sudo docker run hello-world
 ```
+
+## Installing Nvidia Drivers
+If your GPU is compatible with 550 Drivers, you could execute the following commands. You could look up what driver is best for the GPU [here](https://www.nvidia.com/Download/index.aspx?lang=en-us)
+```
+$ sudo apt-get update
+$ sudo apt-get install -y linux-headers-$(uname -r) gcc make
+$ wget https://us.download.nvidia.com/XFree86/Linux-x86_64/550.54.15/NVIDIA-Linux-x86_64-550.54.15.run
+$ sudo chmod +x NVIDIA-Linux-x86_64-550.54.15.run
+$ sudo ./NVIDIA-Linux-x86_64-550.54.15.run --silent --dkms
+```
+
+## Installing CUDA Toolkit(12.4)
+The OS, Architecture and Distribution details are below, For other Distributions you can go [here](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=22.04&target_type=deb_local)
+Operating System : Linux 
+Architecture : x86_64
+Distribution : Ubuntu 
+Version : 22.04
+Installer type : deb(local)
+```
+$ wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin
+$ sudo mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600
+$ wget https://developer.download.nvidia.com/compute/cuda/12.4.1/local_installers/cuda-repo-ubuntu2204-12-4-local_12.4.1-550.54.15-1_amd64.deb
+$ sudo dpkg -i cuda-repo-ubuntu2204-12-4-local_12.4.1-550.54.15-1_amd64.deb
+$ sudo cp /var/cuda-repo-ubuntu2204-12-4-local/cuda-*-keyring.gpg /usr/share/keyrings/
+$ sudo apt-get update
+$ sudo apt-get -y install cuda-toolkit-12-4
+```
+### Installing CUDA Drivers
+```
+$ sudo apt-get install -y cuda-drivers
+$ sudo apt-get install -y nvidia-driver-550-open
+$ sudo apt-get install -y cuda-drivers-550
+```
+
+
 
