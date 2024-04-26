@@ -9,6 +9,6 @@ Minikube, a local Kubernetes implementation, is used to create a development env
 Nvtop, a monitoring tool for GPU by Nvidia is utilized for evaluating the GPU.
 
 # Installation-Guide
-Prerequisites
+## Prerequisites
 You must have a CUDA capable GPU
 `lspci | grep -i nvidia`
