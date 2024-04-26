@@ -14,7 +14,7 @@ Nvtop, a monitoring tool for GPU by Nvidia is utilized for evaluating the GPU.
 `lspci | grep -i nvidia`
 ### Verify you have a supported version of Linux
 `uname -m && cat /etc/*release`
-#### You should see output similar to the following, modified for your particular system
+##### You should see output similar to the following, modified for your particular system
 `x86_64
 Red Hat Enterprise Linux Workstation release 6.0 (Santiago)`
 ### Verify the System Has gcc Installed
