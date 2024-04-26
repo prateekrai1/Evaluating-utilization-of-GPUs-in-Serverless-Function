@@ -29,7 +29,7 @@ Red Hat Enterprise Linux Workstation release 6.0 (Santiago)
 gcc --version
 ```
 ## Installing Docker
-These steps should help you install Docker. For further infor
+These steps should help you install Docker. For further information [Docker](https://docs.docker.com/engine/install/ubuntu/)
 ```
 $ sudo apt-get update
 $ sudo apt-get install ca-certificates curl
