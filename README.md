@@ -59,6 +59,11 @@ $ wget https://us.download.nvidia.com/XFree86/Linux-x86_64/550.54.15/NVIDIA-Linu
 $ sudo chmod +x NVIDIA-Linux-x86_64-550.54.15.run
 $ sudo ./NVIDIA-Linux-x86_64-550.54.15.run --silent --dkms
 ```
+Verify you have access to the GPU using Nvidia Drivers
+```
+nvidia-smi
+```
+You should be able to see the Nvidia Driver version number and compatible CUDA Toolkit
 
 ## Installing CUDA Toolkit(12.4)
 The OS, Architecture and Distribution details are below, For other Distributions you can go [here](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&Distribution=Ubuntu&target_version=22.04&target_type=deb_local)
@@ -82,6 +87,11 @@ $ sudo apt-get install -y cuda-drivers
 $ sudo apt-get install -y nvidia-driver-550-open
 $ sudo apt-get install -y cuda-drivers-550
 ```
+Verify CUDA installation:
+```
+nvcc --version
+```
+
 ## Install Nvidia Container Toolkit to enable GPU support in Docker
 You could install the container toolkit using Apt, Zypper or Yum. For Zypper and Yum, and if you have a multinode cluster and using Containerd you could see [Nvidia Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
 
@@ -113,7 +123,6 @@ sudo systemctl restart docker
 ```
 
 
-
 ## Installing Minikube
 If you plan to evaluate GPU for a single node cluster use minikube, else you can use containerd
 ```
@@ -121,6 +130,7 @@ $ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linu
 $ sudo install minikube-linux-amd64 /usr/local/bin/minikube
 ```
 ### Using NVIDIA GPUs with Minikube
+Now that you have configured container runtime you can start the Kubernetes cluster
 Check if `bpf_jit_harden` is set to `0`
 ```
 $ sudo sysctl net.core.bpf_jit_harden
@@ -129,10 +139,6 @@ If it's not `0` then run:
 ```
 $ echo "net.core.bpf_jit_harden=0" | sudo tee -a /etc/sysctl.conf
 $ sudo sysctl -p
-```
-Configure Docker:
-```
-$ sudo nvidia-ctk runtime configure --runtime=docker && sudo systemctl restart docker
 ```
 Start Minikube:
 ```
@@ -146,11 +152,33 @@ $ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/sta
 ```
 check whether you are able to execute the binary
 ```
-echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+$ echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
 ```
 You shoudl see a Output similar to the following:
 `kubectl:OK`
 
+### Installing OpenFaaS via Arkade
+Installing OpenFaaS via Arkade it pretty simple. If you face any issues installing OpenFaaS you can head over to [OpenFaaS's](https://docs.openfaas.com/cli/install/) Documentation
+Get Arkade first
+```
+$ curl -SLsf https://get.arkade.dev/ | sudo sh
+```
+Make the kubectl binary executable
+```
+$ chmod +x kubectl
+$ sudo mv kubectl /usr/local/bin
+$ arkade install openfaas
+```
+Install the FaaS-CLI
+```
+$ curl -SLsf https://cli.openfaas.com | sudo sh
+$ echo $(kubectl -n openfaas get secret basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode)
+$ kubectl rollout status -n openfaas deploy/gateway
+$ kubectl port-forward -n openfaas svc/gateway 8080:8080 &
+```
+
+# Creating and Deploying the Serverless functions
+  
 
 
 
