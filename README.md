@@ -83,6 +83,35 @@ $ sudo apt-get install -y nvidia-driver-550-open
 $ sudo apt-get install -y cuda-drivers-550
 ```
 ## Install Nvidia Container Toolkit to enable GPU support in Docker
+You could install the container toolkit using Apt, Zypper or Yum. For Zypper and Yum, and if you have a multinode cluster and using Containerd you could see [Nvidia Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
+
+Installing with Apt
+```
+$ curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
+  && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
+    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+```
+Optionally, configure the repository to use experimental packages:
+```
+$ sed -i -e '/experimental/ s/^#//g' /etc/apt/sources.list.d/nvidia-container-toolkit.list
+```
+Update the packages list from the repository and Install the Nvidia Container Toolkit packages
+```
+$ sudo apt-get update
+$ sudo apt-get install -y nvidia-container-toolkit
+```
+Configure the container runtime by using the nvidia-ctk command:
+```
+sudo nvidia-ctk runtime configure --runtime=docker
+```
+The `nvidia-ctk` command modifies the `/etc/docker/daemon.json` file on the host. The file is updated so that Docker can use the NVIDIA Container Runtime.
+
+Restart the Docker daemon:
+```
+sudo systemctl restart docker
+```
+
 
 
 ## Installing Minikube
