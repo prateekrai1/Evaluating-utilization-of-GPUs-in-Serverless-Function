@@ -178,6 +178,7 @@ $ kubectl port-forward -n openfaas svc/gateway 8080:8080 &
 ```
 
 # Creating and Deploying the Serverless functions
+Create your first Python function with OpenFaaS [here](https://docs.openfaas.com/tutorials/first-python-function/)
 ## Creating a Function
 First pull the template repository
 ```
