@@ -158,7 +158,7 @@ You shoudl see a Output similar to the following:
 `kubectl:OK`
 
 ### Installing OpenFaaS via Arkade
-Installing OpenFaaS via Arkade it pretty simple. If you face any issues installing OpenFaaS you can head over to [OpenFaaS's](https://docs.openfaas.com/cli/install/) Documentation
+Installing OpenFaaS via Arkade it pretty simple. If you face any issues installing OpenFaaS you can head over to [OpenFaaS](https://docs.openfaas.com/cli/install/) Documentation
 Get Arkade first
 ```
 $ curl -SLsf https://get.arkade.dev/ | sudo sh
@@ -198,7 +198,7 @@ if you need any help building the function, you can take the help of FaaS-CLI by
 ```
 $ faas-cli build --help
 ```
-Edit the functionname.yml -- The defualt version will not gave any namespaces in it. Make sure to include namespaces
+Edit the functionname.yml -- The defualt template will not gave any namespaces in it. Make sure to include namespaces
 ```
 version: 1.0
 provider:
