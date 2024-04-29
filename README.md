@@ -191,7 +191,7 @@ $ faas-cli new --lang python pythonFunction
 This will create a directory with the function name and also functionname.yml
 
 ## Build and Deploy the FaaS function
-Build the Function. The built in URL is http://127.0.0.1 for OpenFaaS. 
+Build the Function. The built in URL is `http://127.0.0.1` for OpenFaaS. 
 ```
 $ faas-cli build -f functionname.yml -g $GATEWAY_URL
 ```
