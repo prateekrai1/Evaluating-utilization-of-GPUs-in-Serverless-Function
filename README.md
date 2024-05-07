@@ -8,7 +8,7 @@ OpenFaaS, a popular severless framework, is utilized for deploying these functio
 Minikube, a local Kubernetes implementation, is used to create a development environment that simulates a Kubernetes cluster. Within minikube, the necessary resources, including GPU support using Nvidia Container Toolkit are configured.
 Nvtop, a monitoring tool for GPU by Nvidia is utilized for evaluating the GPU.
 
-# Installation-Guide
+# Installation-Guide For Nvidia GPUs
 ## Prerequisites
 These are the basic prerequisites to get started, for more information [Nvidia CUDA installation Guide for Linux](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/)
 You must have a CUDA capable GPU
