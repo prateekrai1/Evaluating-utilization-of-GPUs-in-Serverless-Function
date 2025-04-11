@@ -31,19 +31,19 @@ gcc --version
 ## Installing Docker
 These steps should help you install Docker. For further information visit [Docker](https://docs.docker.com/engine/install/ubuntu/)
 ```bash
-$ sudo apt-get update
-$ sudo apt-get install ca-certificates curl
-$ sudo install -m 0755 -d /etc/apt/keyrings
-$ sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-$ sudo chmod a+r /etc/apt/keyrings/docker.asc
+sudo apt-get update
+sudo apt-get install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
 
 # Add the repository to Apt sources:
-$ echo \
+echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-$ sudo apt-get update
-$ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 Test Docker using 'Hello-World'
 ```bash
@@ -53,11 +53,11 @@ sudo docker run hello-world
 ## Installing Nvidia Drivers
 If your GPU is compatible with 550 Drivers, you could execute the following commands. You could look up what driver is best for the GPU [here](https://www.nvidia.com/Download/index.aspx?lang=en-us)
 ```bash
-$ sudo apt-get update
-$ sudo apt-get install -y linux-headers-$(uname -r) gcc make
-$ wget https://us.download.nvidia.com/XFree86/Linux-x86_64/550.54.15/NVIDIA-Linux-x86_64-550.54.15.run
-$ sudo chmod +x NVIDIA-Linux-x86_64-550.54.15.run
-$ sudo ./NVIDIA-Linux-x86_64-550.54.15.run --silent --dkms
+sudo apt-get update
+sudo apt-get install -y linux-headers-$(uname -r) gcc make
+wget https://us.download.nvidia.com/XFree86/Linux-x86_64/550.54.15/NVIDIA-Linux-x86_64-550.54.15.run
+sudo chmod +x NVIDIA-Linux-x86_64-550.54.15.run
+sudo ./NVIDIA-Linux-x86_64-550.54.15.run --silent --dkms
 ```
 Verify you have access to the GPU using Nvidia Drivers
 ```bash
@@ -73,19 +73,19 @@ Distribution : Ubuntu
 Version : 22.04
 Installer type : deb(local)
 ```bash
-$ wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin
-$ sudo mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600
-$ wget https://developer.download.nvidia.com/compute/cuda/12.4.1/local_installers/cuda-repo-ubuntu2204-12-4-local_12.4.1-550.54.15-1_amd64.deb
-$ sudo dpkg -i cuda-repo-ubuntu2204-12-4-local_12.4.1-550.54.15-1_amd64.deb
-$ sudo cp /var/cuda-repo-ubuntu2204-12-4-local/cuda-*-keyring.gpg /usr/share/keyrings/
-$ sudo apt-get update
-$ sudo apt-get -y install cuda-toolkit-12-4
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin
+sudo mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600
+wget https://developer.download.nvidia.com/compute/cuda/12.4.1/local_installers/cuda-repo-ubuntu2204-12-4-local_12.4.1-550.54.15-1_amd64.deb
+sudo dpkg -i cuda-repo-ubuntu2204-12-4-local_12.4.1-550.54.15-1_amd64.deb
+sudo cp /var/cuda-repo-ubuntu2204-12-4-local/cuda-*-keyring.gpg /usr/share/keyrings/
+sudo apt-get update
+sudo apt-get -y install cuda-toolkit-12-4
 ```
 ### Installing CUDA Drivers
 ```bash
-$ sudo apt-get install -y cuda-drivers
-$ sudo apt-get install -y nvidia-driver-550-open
-$ sudo apt-get install -y cuda-drivers-550
+sudo apt-get install -y cuda-drivers
+sudo apt-get install -y nvidia-driver-550-open
+sudo apt-get install -y cuda-drivers-550
 ```
 Verify CUDA installation:
 ```bash
@@ -97,23 +97,23 @@ You could install the container toolkit using Apt, Zypper or Yum. For Zypper and
 
 Installing with Apt
 ```bash
-$ curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
+curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
   && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
     sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
     sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 ```
 Optionally, configure the repository to use experimental packages:
 ```bash
-$ sed -i -e '/experimental/ s/^#//g' /etc/apt/sources.list.d/nvidia-container-toolkit.list
+sed -i -e '/experimental/ s/^#//g' /etc/apt/sources.list.d/nvidia-container-toolkit.list
 ```
 Update the packages list from the repository and Install the Nvidia Container Toolkit packages
 ```bash
-$ sudo apt-get update
-$ sudo apt-get install -y nvidia-container-toolkit
+sudo apt-get update
+sudo apt-get install -y nvidia-container-toolkit
 ```
 Configure the container runtime by using the nvidia-ctk command:
 ```bash
-$ sudo nvidia-ctk runtime configure --runtime=docker
+sudo nvidia-ctk runtime configure --runtime=docker
 ```
 The `nvidia-ctk` command modifies the `/etc/docker/daemon.json` file on the host. The file is updated so that Docker can use the NVIDIA Container Runtime.
 
@@ -137,22 +137,22 @@ $ sudo sysctl net.core.bpf_jit_harden
 ```
 If it's not `0` then run:
 ```bash
-$ echo "net.core.bpf_jit_harden=0" | sudo tee -a /etc/sysctl.conf
-$ sudo sysctl -p
+echo "net.core.bpf_jit_harden=0" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
 ```
 Start Minikube:
 ```bash
-$ minikube start --driver docker --container-runtime docker --gpus all
+minikube start --driver docker --container-runtime docker --gpus all
 ```
 
 ## Install Kubectl
 ```
-$ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-$ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
 ```
 check whether you are able to execute the binary
 ```
-$ echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
 ```
 You shoudl see a Output similar to the following:
 `kubectl:OK`
@@ -193,11 +193,11 @@ This will create a directory with the function name and also functionname.yml
 ## Build and Deploy the FaaS function
 Build the Function. The built in URL is `http://127.0.0.1` for OpenFaaS. 
 ```bash
-$ faas-cli build -f functionname.yml -g $GATEWAY_URL
+faas-cli build -f functionname.yml -g $GATEWAY_URL
 ```
 if you need any help building the function, you can take the help of FaaS-CLI by typing in 
 ```bash
-$ faas-cli build --help
+faas-cli build --help
 ```
 Edit the functionname.yml -- The defualt template will not gave any namespaces in it. Make sure to include namespaces
 ```bash
