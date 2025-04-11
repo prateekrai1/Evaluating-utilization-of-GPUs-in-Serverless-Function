@@ -119,21 +119,21 @@ The `nvidia-ctk` command modifies the `/etc/docker/daemon.json` file on the host
 
 Restart the Docker daemon:
 ```bash
-$ sudo systemctl restart docker
+sudo systemctl restart docker
 ```
 
 
 ## Installing Minikube
 If you plan to evaluate GPU for a single node cluster use minikube, else you can use containerd
 ```bash
-$ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-$ sudo install minikube-linux-amd64 /usr/local/bin/minikube
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
 ```
 ### Using NVIDIA GPUs with Minikube
 Now that you have configured container runtime you can start the Kubernetes cluster
 Check if `bpf_jit_harden` is set to `0`
 ```bash
-$ sudo sysctl net.core.bpf_jit_harden
+sudo sysctl net.core.bpf_jit_harden
 ```
 If it's not `0` then run:
 ```bash
@@ -165,16 +165,16 @@ $ curl -SLsf https://get.arkade.dev/ | sudo sh
 ```
 Make the kubectl binary executable
 ```bash
-$ chmod +x kubectl
-$ sudo mv kubectl /usr/local/bin
-$ arkade install openfaas
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin
+arkade install openfaas
 ```
 Install the FaaS-CLI
 ```bash
-$ curl -SLsf https://cli.openfaas.com | sudo sh
-$ echo $(kubectl -n openfaas get secret basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode)
-$ kubectl rollout status -n openfaas deploy/gateway
-$ kubectl port-forward -n openfaas svc/gateway 8080:8080 &
+curl -SLsf https://cli.openfaas.com | sudo sh
+echo $(kubectl -n openfaas get secret basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode)
+kubectl rollout status -n openfaas deploy/gateway
+kubectl port-forward -n openfaas svc/gateway 8080:8080 &
 ```
 
 # Creating and Deploying the Serverless functions
@@ -182,11 +182,11 @@ Create your first Python function with OpenFaaS [here](https://docs.openfaas.com
 ## Creating a Function
 First pull the template repository
 ```bash
-$ faas-cli template pull
+faas-cli template pull
 ```
 Create a java function, Similarly you can replace the language and the function name with Dockerfile, Python, Go etc. and any suitable name that you would like for your function. 
 ```bash
-$ faas-cli new --lang python pythonFunction
+faas-cli new --lang python pythonFunction
 ```
 This will create a directory with the function name and also functionname.yml
 
@@ -215,31 +215,31 @@ functions:
 Deploy the function
 This will deploy the function to your Docker hub repository
 ```bash
-$ faas-cli up -f functionname.yml
+faas-cli up -f functionname.yml
 ```
 You can enable prometheus for monitoring you cluster by using this command
 ```bash
-$ faas-cli deploy -f functionname.yml --annotation prometheus.io.scrape=true --annotation prometheus.io.port=8081
+faas-cli deploy -f functionname.yml --annotation prometheus.io.scrape=true --annotation prometheus.io.port=8081
 ```
 Check the Prometheus Status will be changed to "True"
 ```bash
-$ faas-cli describe functionname
+faas-cli describe functionname
 ```
 Invoke the function
 ```bash
-$ faas-cli invoke functionname
+faas-cli invoke functionname
 ```
 To ensure your container is running in the cluster. This will give all the containers running on the cluster. You should be able to see your function with your namespace
 ```bash
-$ kubectl get pods -A
-$ kubectl get services -A
+kubectl get pods -A
+kubectl get services -A
 ```
 
 # Monitoring the GPU
 ## Install NVTOP
 ```bash
-$ sudo apt install nvtop
-$ nvtop
+sudo apt install nvtop
+nvtop
 ```
 If your function utilizes the GPU, then you should be able to see the spike in graph. 
 
