@@ -30,7 +30,7 @@ gcc --version
 ```
 ## Installing Docker
 These steps should help you install Docker. For further information visit [Docker](https://docs.docker.com/engine/install/ubuntu/)
-```
+```bash
 $ sudo apt-get update
 $ sudo apt-get install ca-certificates curl
 $ sudo install -m 0755 -d /etc/apt/keyrings
@@ -46,13 +46,13 @@ $ sudo apt-get update
 $ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 Test Docker using 'Hello-World'
-```
+```bash
 sudo docker run hello-world
 ```
 
 ## Installing Nvidia Drivers
 If your GPU is compatible with 550 Drivers, you could execute the following commands. You could look up what driver is best for the GPU [here](https://www.nvidia.com/Download/index.aspx?lang=en-us)
-```
+```bash
 $ sudo apt-get update
 $ sudo apt-get install -y linux-headers-$(uname -r) gcc make
 $ wget https://us.download.nvidia.com/XFree86/Linux-x86_64/550.54.15/NVIDIA-Linux-x86_64-550.54.15.run
@@ -60,7 +60,7 @@ $ sudo chmod +x NVIDIA-Linux-x86_64-550.54.15.run
 $ sudo ./NVIDIA-Linux-x86_64-550.54.15.run --silent --dkms
 ```
 Verify you have access to the GPU using Nvidia Drivers
-```
+```bash
 nvidia-smi
 ```
 You should be able to see the Nvidia Driver version number and compatible CUDA Toolkit
