@@ -18,14 +18,14 @@ lspci | grep -i nvidia
 Verify you have a supported version of Linux
 ```bash
 uname -m && cat /etc/*release
-```bash
-You should see output similar to the following, modified for your particular system
 ```
+You should see output similar to the following, modified for your particular system
+```bash
 x86_64
 Red Hat Enterprise Linux Workstation release 6.0 (Santiago)
 ```
 Verify the System Has gcc Installed
-```
+```bash
 gcc --version
 ```
 ## Installing Docker
@@ -72,7 +72,7 @@ Architecture : x86_64
 Distribution : Ubuntu 
 Version : 22.04
 Installer type : deb(local)
-```
+```bash
 $ wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-ubuntu2204.pin
 $ sudo mv cuda-ubuntu2204.pin /etc/apt/preferences.d/cuda-repository-pin-600
 $ wget https://developer.download.nvidia.com/compute/cuda/12.4.1/local_installers/cuda-repo-ubuntu2204-12-4-local_12.4.1-550.54.15-1_amd64.deb
@@ -82,13 +82,13 @@ $ sudo apt-get update
 $ sudo apt-get -y install cuda-toolkit-12-4
 ```
 ### Installing CUDA Drivers
-```
+```bash
 $ sudo apt-get install -y cuda-drivers
 $ sudo apt-get install -y nvidia-driver-550-open
 $ sudo apt-get install -y cuda-drivers-550
 ```
 Verify CUDA installation:
-```
+```bash
 nvcc --version
 ```
 
@@ -96,52 +96,52 @@ nvcc --version
 You could install the container toolkit using Apt, Zypper or Yum. For Zypper and Yum, and if you have a multinode cluster and using Containerd you could see [Nvidia Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
 
 Installing with Apt
-```
+```bash
 $ curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
   && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
     sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
     sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 ```
 Optionally, configure the repository to use experimental packages:
-```
+```bash
 $ sed -i -e '/experimental/ s/^#//g' /etc/apt/sources.list.d/nvidia-container-toolkit.list
 ```
 Update the packages list from the repository and Install the Nvidia Container Toolkit packages
-```
+```bash
 $ sudo apt-get update
 $ sudo apt-get install -y nvidia-container-toolkit
 ```
 Configure the container runtime by using the nvidia-ctk command:
-```
+```bash
 $ sudo nvidia-ctk runtime configure --runtime=docker
 ```
 The `nvidia-ctk` command modifies the `/etc/docker/daemon.json` file on the host. The file is updated so that Docker can use the NVIDIA Container Runtime.
 
 Restart the Docker daemon:
-```
+```bash
 $ sudo systemctl restart docker
 ```
 
 
 ## Installing Minikube
 If you plan to evaluate GPU for a single node cluster use minikube, else you can use containerd
-```
+```bash
 $ curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
 $ sudo install minikube-linux-amd64 /usr/local/bin/minikube
 ```
 ### Using NVIDIA GPUs with Minikube
 Now that you have configured container runtime you can start the Kubernetes cluster
 Check if `bpf_jit_harden` is set to `0`
-```
+```bash
 $ sudo sysctl net.core.bpf_jit_harden
 ```
 If it's not `0` then run:
-```
+```bash
 $ echo "net.core.bpf_jit_harden=0" | sudo tee -a /etc/sysctl.conf
 $ sudo sysctl -p
 ```
 Start Minikube:
-```
+```bash
 $ minikube start --driver docker --container-runtime docker --gpus all
 ```
 
@@ -164,13 +164,13 @@ Get Arkade first
 $ curl -SLsf https://get.arkade.dev/ | sudo sh
 ```
 Make the kubectl binary executable
-```
+```bash
 $ chmod +x kubectl
 $ sudo mv kubectl /usr/local/bin
 $ arkade install openfaas
 ```
 Install the FaaS-CLI
-```
+```bash
 $ curl -SLsf https://cli.openfaas.com | sudo sh
 $ echo $(kubectl -n openfaas get secret basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode)
 $ kubectl rollout status -n openfaas deploy/gateway
@@ -181,26 +181,26 @@ $ kubectl port-forward -n openfaas svc/gateway 8080:8080 &
 Create your first Python function with OpenFaaS [here](https://docs.openfaas.com/tutorials/first-python-function/)
 ## Creating a Function
 First pull the template repository
-```
+```bash
 $ faas-cli template pull
 ```
 Create a java function, Similarly you can replace the language and the function name with Dockerfile, Python, Go etc. and any suitable name that you would like for your function. 
-```
+```bash
 $ faas-cli new --lang python pythonFunction
 ```
 This will create a directory with the function name and also functionname.yml
 
 ## Build and Deploy the FaaS function
 Build the Function. The built in URL is `http://127.0.0.1` for OpenFaaS. 
-```
+```bash
 $ faas-cli build -f functionname.yml -g $GATEWAY_URL
 ```
 if you need any help building the function, you can take the help of FaaS-CLI by typing in 
-```
+```bash
 $ faas-cli build --help
 ```
 Edit the functionname.yml -- The defualt template will not gave any namespaces in it. Make sure to include namespaces
-```
+```bash
 version: 1.0
 provider:
   name: openfaas
@@ -214,30 +214,30 @@ functions:
 ```
 Deploy the function
 This will deploy the function to your Docker hub repository
-```
+```bash
 $ faas-cli up -f functionname.yml
 ```
 You can enable prometheus for monitoring you cluster by using this command
-```
+```bash
 $ faas-cli deploy -f functionname.yml --annotation prometheus.io.scrape=true --annotation prometheus.io.port=8081
 ```
 Check the Prometheus Status will be changed to "True"
-```
+```bash
 $ faas-cli describe functionname
 ```
 Invoke the function
-```
+```bash
 $ faas-cli invoke functionname
 ```
 To ensure your container is running in the cluster. This will give all the containers running on the cluster. You should be able to see your function with your namespace
-```
+```bash
 $ kubectl get pods -A
 $ kubectl get services -A
 ```
 
 # Monitoring the GPU
 ## Install NVTOP
-```
+```bash
 $ sudo apt install nvtop
 $ nvtop
 ```
